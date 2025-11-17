@@ -3,18 +3,25 @@
 [GeneratedComClass]
 public partial class WidgetProviderFactory : IClassFactory
 {
-    HRESULT IClassFactory.LockServer(BOOL fLock) => HRESULT.S_OK;
-    unsafe HRESULT IClassFactory.CreateInstance(object pUnkOuter, Guid* riid, out object ppvObject)
+#pragma warning disable IDE1006 // Naming Styles
+
+    private const int CLASS_E_NOAGGREGATION = unchecked((int)0x80040110);
+    private const int E_NOINTERFACE = unchecked((int)0x80004002);
+
+#pragma warning restore IDE1006 // Naming Styles
+
+    int IClassFactory.LockServer(bool fLock) => 0;
+    int IClassFactory.CreateInstance(nint pUnkOuter, in Guid riid, out nint ppvObject)
     {
         ppvObject = 0;
-        if (pUnkOuter != null)
-            return HRESULT.CLASS_E_NOAGGREGATION;
+        if (pUnkOuter != 0)
+            return CLASS_E_NOAGGREGATION;
 
-        if (*riid == typeof(WidgetProvider).GUID || *riid == typeof(IUnknown).GUID)
+        if (riid == typeof(WidgetProvider).GUID || riid == typeof(IUnknown).GUID)
         {
             ppvObject = MarshalInspectable<IWidgetProvider>.FromManaged(new WidgetProvider());
-            return HRESULT.S_OK;
+            return 0;
         }
-        return HRESULT.E_NOINTERFACE;
+        return E_NOINTERFACE;
     }
 }

@@ -1,9 +1,0 @@
-﻿IUnknown
-IClassFactory
-CoRegisterClassObject
-CoRevokeClassObject
-GetConsoleWindow
-
-S_OK
-E_NOINTERFACE
-CLASS_E_NOAGGREGATION

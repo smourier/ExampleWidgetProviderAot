@@ -21,16 +21,12 @@ public partial class WidgetProvider : IWidgetProvider
             if (!RunningWidgets.ContainsKey(widgetId))
             {
                 CompactWidgetInfo runningWidgetInfo = new() { widgetId = widgetId, widgetName = widgetName };
-                try
-                {
-                    // If we had any save state (in this case we might have some state saved for Counting widget)
-                    // convert string to required type if needed.
-                    int count = Convert.ToInt32(customState.ToString());
-                    runningWidgetInfo.customState = count;
-                }
-                catch
-                {
 
+                // If we had any save state (in this case we might have some state saved for Counting widget)
+                // convert string to required type if needed.
+                if (int.TryParse(customState.ToString(), out var count))
+                {
+                    runningWidgetInfo.customState = count;
                 }
                 RunningWidgets[widgetId] = runningWidgetInfo;
             }
